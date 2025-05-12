@@ -20,7 +20,15 @@ from sklearn.datasets import load_breast_cancer
 app = Flask(__name__)
 
 # Load Random Forest model, scaler, and top features
-model = joblib.load('models/random_forest_model.joblib')
+# model = joblib.load('models/random_forest_model.joblib')
+model = None
+
+def get_model():
+    global model
+    if model is None:
+        model = joblib.load('models/random_forest_model.joblib')
+    return model
+
 scaler = joblib.load('models/scaler.joblib')
 top_feature_indices = joblib.load('models/top_feature_indices.joblib')
 top_feature_names = joblib.load('models/top_feature_names.joblib')
