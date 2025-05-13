@@ -1,307 +1,145 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wine and Breast Cancer Analysis</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans">
-    <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold text-center mb-6">Wine and Breast Cancer Analysis</h1>
-        
-        
-        <div class="mb-6 text-center">
-            <a href="?show_observations={{ 'true' if not show_observations else 'false' }}"
-               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
-                {{ 'Show Observations Report' if not show_observations else 'Hide Observations Report' }}
-            </a>
-            <a href="/download_report" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                Download Report
-            </a>
-        </div>
-        
-        
-        {% if show_observations %}
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-2xl font-semibold mb-4">Observations Report</h2>
-            <embed src="/static/report.pdf" type="application/pdf" width="100%" height="600px" />
-        </div>
-        {% endif %}
-        
-        
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-2xl font-semibold mb-4">Breast Cancer Prediction</h2>
-            <form id="predictionForm" method="POST" class="grid grid-cols-1 gap-4">
-                {% for feature in top_feature_names %}
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">{{ feature }}</label>
-                    <input type="number" step="any" name="{{ feature.replace(' ', '_') }}" 
-                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
-                           required>
-                </div>
-                {% endfor %}
-                <div>
-                    <button type="submit" 
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
-                        Predict
-                    </button>
-                </div>
-            </form>
-            
-            {% if error %}
-            <div class="mt-4 p-4 bg-red-100 text-red-700 rounded">
-                {{ error }}
-            </div>
-            {% endif %}
-            
-            {% if prediction %}
-            <div class="mt-4 p-4 bg-green-100 text-green-700 rounded">
-                <p class="font-semibold">Prediction: {{ prediction }}</p>
-                <p>Confidence: {{ "%.2f" % probability }}%</p>
-            </div>
-            {% endif %}
-        </div>
-        
-        
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-2xl font-semibold mb-4">Wine Dataset - Classification Accuracy</h2>
-            <table class="w-full table-auto">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="px-4 py-2">Model</th>
-                        <th class="px-4 py-2">Accuracy</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for model, accuracy in wine_results.items() %}
-                    <tr>
-                        <td class="border px-4 py-2">{{ model }}</td>
-                        <td class="border px-4 py-2">{{ "%.4f" % accuracy }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-2xl font-semibold mb-4">Wine Dataset Features</h2>
-            <ul class="list-disc pl-6">
-                {% for feature in wine_feature_names %}
-                <li>{{ feature }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        
-        
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-2xl font-semibold mb-4">Breast Cancer Dataset - Classification Accuracy</h2>
-            <table class="w-full table-auto">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="px-4 py-2">Model</th>
-                        <th class="px-4 py-2">Accuracy</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for model, accuracy in bc_classification_results.items() %}
-                    <tr>
-                        <td class="border px-4 py-2">{{ model }}</td>
-                        <td class="border px-4 py-2">{{ "%.4f" % accuracy }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        
-        
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-2xl font-semibold mb-4">Breast Cancer Dataset - Clustering Silhouette Score</h2>
-            <table class="w-full table-auto">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="px-4 py-2">Model</th>
-                        <th class="px-4 py-2">Silhouette Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for model, score in bc_clustering_results.items() %}
-                    <tr>
-                        <td class="border px-4 py-2">{{ model }}</td>
-                        <td class="border px-4 py-2">{{ "%.4f" % score }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-semibold mb-4">Breast Cancer Dataset Features</h2>
-            <ul class="list-disc pl-6">
-                {% for feature in bc_feature_names %}
-                <li>{{ feature }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    <script src="../static/script.js"></script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Wine and Breast Cancer Analysis</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans leading-relaxed">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breast Cancer Risk Analyzer</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #fff, #031d11);
+        color: rgb(22, 43, 43);
+        margin: 0;
+        padding: 0;
+      }
 
-  <div class="max-w-6xl mx-auto px-6 py-10">
-    <header class="mb-10">
-      <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-4">🍷 Wine & 🎗️ Breast Cancer Analysis</h1>
-      <p class="text-center text-gray-600 text-lg">A predictive and comparative model dashboard</p>
-    </header>
+      .container {
+        max-width: 500px;
+        margin: 50px auto;
+        background: rgb(1, 27, 27);
+        padding: 40px;
+        border-radius: 18px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+      }
 
-    <!-- Actions -->
-    <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-10">
-      <a href="?show_observations={{ 'true' if not show_observations else 'false' }}"
-         class="bg-yellow-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded transition">
-        {{ 'Show Observations Report' if not show_observations else 'Hide Observations Report' }}
-      </a>
-      <a href="/download_report"
-         class="bg-blue-600 hover:bg-green-700 text-white font-medium px-5 py-2 rounded transition">
-        Download Report
-      </a>
-    </div>
+      h1 {
+        text-align: center;
+        color:#fff;
+        margin-bottom: 30px;
+        font-size: 28px;
+      }
 
-    <!-- Observations Report -->
-    {% if show_observations %}
-    <section class="bg-white p-6 rounded-xl shadow-md mb-10">
-      <h2 class="text-2xl font-bold mb-4 text-gray-700">📄 Observations Report</h2>
-      <embed src="/static/report.pdf" type="application/pdf" width="100%" height="600px" class="rounded-lg border"/>
-    </section>
-    {% endif %}
+      label {
+        display: block;
+        margin-bottom: 8px;
+        margin-top: 18px;
+        font-weight: 600;
+        color: #fff;
+      }
 
-    <!-- Prediction Form -->
-    <section class="bg-white p-6 rounded-xl shadow-md mb-10">
-      <h2 class="text-2xl font-bold mb-6 text-gray-700">🧪 Breast Cancer Prediction</h2>
-      <form id="predictionForm" method="POST" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {% for feature in top_feature_names %}
-        <div>
-          <label class="block text-gray-600 font-medium mb-1">{{ feature }}</label>
-          <input type="number" step="any" name="{{ feature.replace(' ', '_') }}"
-                 class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-        </div>
-        {% endfor %}
-        <div class="sm:col-span-2">
-          <button type="submit"
-                  class="w-full bg-yellow-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition">
-            Predict
-          </button>
-        </div>
+      input[type="text"] {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ffffff;
+        border-radius: 6px;
+        background-color: #ffffff;
+        font-size: 14px;
+        transition: border 0.3s;
+      }
+
+      input[type="text"]:focus {
+        border-color: rgb(0, 29, 29);
+        outline: none;
+      }
+
+      input[type="submit"] {
+        background-color: #000000;
+        color: #fff;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: block;
+        margin: 30px auto 10px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #fff;
+        color:#000000;
+      }
+
+      .result {
+        text-align: center;
+        font-size: 20px;
+        margin-top: 30px;
+        color: rgb(5, 49, 49);
+        font-weight: bold;
+      }
+
+      .link-container {
+        text-align: center;
+        margin-top: 25px;
+      }
+
+      .link-container a {
+        color: rgb(152, 206, 206);
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      .link-container a:hover {
+        color: #fff;
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Breast Cancer Risk Checker</h1>
+
+      <form action="/predict" method="POST">
+        <label for="user_name">Your Name</label>
+        <input type="text" id="user_name" name="user_name" required />
+
+        <label for="mean_radius">Radius (Mean)</label>
+        <input type="text" id="mean_radius" name="mean_radius" required />
+
+        <label for="mean_texture">Texture (Mean)</label>
+        <input type="text" id="mean_texture" name="mean_texture" required />
+
+        <label for="mean_perimeter">Perimeter (Mean)</label>
+        <input type="text" id="mean_perimeter" name="mean_perimeter" required />
+
+        <label for="mean_area">Area (Mean)</label>
+        <input type="text" id="mean_area" name="mean_area" required />
+
+        <label for="mean_smoothness">Smoothness (Mean)</label>
+        <input type="text" id="mean_smoothness" name="mean_smoothness" required />
+
+        <label for="mean_compactness">Compactness (Mean)</label>
+        <input type="text" id="mean_compactness" name="mean_compactness" required />
+
+        <label for="mean_concavity">Concavity (Mean)</label>
+        <input type="text" id="mean_concavity" name="mean_concavity" required />
+
+        <label for="mean_concave_points">Concave Points (Mean)</label>
+        <input type="text" id="mean_concave_points" name="mean_concave_points" required />
+
+        <input type="submit" value="Check Prediction" />
       </form>
 
-      {% if error %}
-      <div class="mt-6 p-4 bg-red-100 text-red-700 rounded-lg font-medium">
-        {{ error }}
-      </div>
-      {% endif %}
-
       {% if prediction %}
-      <div class="mt-6 p-4 bg-yellow-100 text-green-800 rounded-lg">
-        <p class="font-semibold text-lg">Prediction: {{ prediction }}</p>
-        <p class="text-sm">Confidence: {{ "%.2f" % probability }}%</p>
+      <div class="result">
+        Result: {{ prediction }}
       </div>
       {% endif %}
-    </section>
 
-    <!-- Model Accuracy Tables -->
-    <section class="space-y-10">
-      <!-- Wine Classification -->
-      <div class="bg-white p-6 rounded-xl shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700">🍇 Wine Dataset - Classification Accuracy</h2>
-        <table class="min-w-full table-auto border border-gray-200 text-left text-gray-700">
-          <thead class="bg-gray-100 font-semibold">
-            <tr>
-              <th class="px-4 py-3 border-b">Model</th>
-              <th class="px-4 py-3 border-b">Accuracy</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for model, accuracy in wine_results.items() %}
-            <tr class="hover:bg-gray-50">
-              <td class="px-4 py-3 border-b">{{ model }}</td>
-              <td class="px-4 py-3 border-b">{{ "%.4f" % accuracy }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <div class="link-container">
+        <a href="{{ url_for('output') }}">→ View All Predictions</a>
       </div>
-
-      <!-- Wine Features -->
-      <div class="bg-white p-6 rounded-xl shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700">🧬 Wine Dataset Features</h2>
-        <ul class="list-disc pl-6 text-gray-600 space-y-1">
-          {% for feature in wine_feature_names %}
-          <li>{{ feature }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <!-- Breast Cancer Classification -->
-      <div class="bg-white p-6 rounded-xl shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700">🩺 Breast Cancer Dataset - Classification Accuracy</h2>
-        <table class="min-w-full table-auto border border-gray-200 text-left text-gray-700">
-          <thead class="bg-gray-100 font-semibold">
-            <tr>
-              <th class="px-4 py-3 border-b">Model</th>
-              <th class="px-4 py-3 border-b">Accuracy</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for model, accuracy in bc_classification_results.items() %}
-            <tr class="hover:bg-gray-50">
-              <td class="px-4 py-3 border-b">{{ model }}</td>
-              <td class="px-4 py-3 border-b">{{ "%.4f" % accuracy }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Breast Cancer Clustering -->
-      <div class="bg-white p-6 rounded-xl shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700">🔬 Breast Cancer Dataset - Clustering Silhouette Score</h2>
-        <table class="min-w-full table-auto border border-gray-200 text-left text-gray-700">
-          <thead class="bg-gray-100 font-semibold">
-            <tr>
-              <th class="px-4 py-3 border-b">Model</th>
-              <th class="px-4 py-3 border-b">Silhouette Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for model, score in bc_clustering_results.items() %}
-            <tr class="hover:bg-gray-50">
-              <td class="px-4 py-3 border-b">{{ model }}</td>
-              <td class="px-4 py-3 border-b">{{ "%.4f" % score }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Breast Cancer Features -->
-      <div class="bg-white p-6 rounded-xl shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700">📊 Breast Cancer Dataset Features</h2>
-        <ul class="list-disc pl-6 text-gray-600 space-y-1">
-          {% for feature in bc_feature_names %}
-          <li>{{ feature }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-    </section>
-  </div>
-
-  <script src="../static/script.js"></script>
-</body>
+    </div>
+  </body>
 </html>

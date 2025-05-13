@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Prediction Overview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(to right, #fff, #031d11);
+        margin: 0;
+        padding: 40px 20px;
+        color: #333;
+      }
+
+      .container {
+        background-color: #ffffff;
+        max-width: 1000px;
+        margin: auto;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        color: rgb(22, 43, 43);
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th, td {
+        padding: 12px;
+        border: 1px solid #e0e0e0;
+        text-align: center;
+      }
+
+      th {
+        background-color: rgb(22, 43, 43);
+        color: #fff;
+      }
+
+      td {
+        background-color: #fffaf5;
+      }
+
+      td:last-child {
+        font-weight: bold;
+        color: #2e7d32;
+      }
+
+      .malignant {
+        color: #fff;
+      }
+
+      .nav-link {
+        display: block;
+        text-align: center;
+        margin-top: 30px;
+        color: #000;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .nav-link:hover {
+        color: rgb(22, 43, 43);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Prediction Records by User</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Radius</th>
+            <th>Texture</th>
+            <th>Perimeter</th>
+            <th>Area</th>
+            <th>Smoothness</th>
+            <th>Compactness</th>
+            <th>Concavity</th>
+            <th>Concave Points</th>
+            <th>Diagnosis</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in records %}
+          <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
+            <td>{{ row[7] }}</td>
+            <td>{{ row[8] }}</td>
+            <td class="{{ 'malignant' if row[9] == 'Malignant' else '' }}">{{ row[9] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <a class="nav-link" href="/">← Back to Diagnosis Tool</a>
+    </div>
+  </body>
+</html>
